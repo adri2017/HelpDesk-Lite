@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Helpdesk Lite</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">HD</div>
+      <div>
+        <div class="brand-title">Helpdesk Lite</div>
+        <div class="brand-sub">Tickets + Comentarios</div>
+      </div>
+    </div>
+
+    <div class="status-pill" id="apiStatus">API: comprobando…</div>
+  </header>
+
+  <main class="layout">
+    
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Tickets</h2>
+
+        <div class="filters">
+          <select id="filterStatus" class="select">
+            <option value="">Estado: Todos</option>
+            <option value="OPEN">OPEN</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="DONE">DONE</option>
+          </select>
+
+          <select id="filterPriority" class="select">
+            <option value="">Prioridad: Todas</option>
+            <option value="LOW">LOW</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+
+          <input id="search" class="input" placeholder="Buscar por título…" />
+        </div>
+
+        <button id="btnNewTicket" type="button" class="btn primary">+ Nuevo ticket</button>
+
+      </div>
+
+      <div class="tickets" id="tickets"></div>
+    </section>
+
+    
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Detalle</h2>
+        <div class="hint">Selecciona un ticket para ver info y comentarios.</div>
+      </div>
+
+      <div class="detail" id="detailEmpty">
+        <div class="empty">
+          <div class="empty-icon">🧾</div>
+          <div class="empty-title">Sin ticket seleccionado</div>
+          <div class="empty-sub">Crea uno o selecciona uno de la lista.</div>
+        </div>
+      </div>
+
+      <div class="detail hidden" id="detail">
+        <div class="detail-card">
+          <div class="detail-top">
+            <div>
+              <div class="badge-row" id="detailBadges"></div>
+              <h3 id="detailTitle">—</h3>
+              <p class="muted" id="detailMeta">—</p>
+            </div>
+
+            <div class="detail-actions">
+              <select id="editStatus" class="select small">
+                <option value="OPEN">OPEN</option>
+                <option value="IN_PROGRESS">IN_PROGRESS</option>
+                <option value="DONE">DONE</option>
+              </select>
+
+              <select id="editPriority" class="select small">
+                <option value="LOW">LOW</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="HIGH">HIGH</option>
+              </select>
+
+              <button class="btn" id="btnSaveTicket">Guardar</button>
+            </div>
+          </div>
+
+          <div class="detail-desc" id="detailDesc"></div>
+
+          <div class="divider"></div>
+
+          <div class="comments-head">
+            <h4>Comentarios</h4>
+            <span class="chip" id="commentCount">0</span>
+          </div>
+
+          <div class="comments" id="comments"></div>
+
+          <form class="comment-form" id="commentForm">
+            <input class="input" id="commentMessage" placeholder="Añadir comentario…" required />
+            <button class="btn primary" type="submit">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Nuevo ticket</h3>
+        <button class="icon-btn" id="btnCloseModal" aria-label="Cerrar">✕</button>
+      </div>
+
+      <form id="ticketForm" class="form">
+        <label class="label">
+          Título
+          <input class="input" name="title" required maxlength="120" placeholder="Ej: Error al iniciar sesión" />
+        </label>
+
+        <label class="label">
+          Categoría
+          <input class="input" name="category" required maxlength="60" placeholder="Ej: Bug / Feature / Soporte" />
+        </label>
+
+        <label class="label">
+          Prioridad
+          <select class="select" name="priority" required>
+            <option value="LOW">LOW</option>
+            <option value="MEDIUM" selected>MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </label>
+
+        <label class="label">
+          Descripción
+          <textarea class="textarea" name="description" required rows="5" placeholder="Describe el problema…"></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="button" class="btn" id="btnCancel">Cancelar</button>
+          <button type="submit" class="btn primary">Crear ticket</button>
+        </div>
+
+        <div class="toast hidden" id="toast"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
